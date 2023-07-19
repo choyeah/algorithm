@@ -85,17 +85,21 @@ class PriorityQueue {
 }
 
 function primMST(graph, start) {
-  let mst = []; // 최소 신장 트리를 저장할 배열입니다.
-  let totalWeight = 0; // 최소 신장 트리의 총 가중치를 저장할 변수입니다.
-  let minEdgeWeight = {}; // 각 노드의 최소 가중치를 저장하는 객체입니다.
-  let parent = {}; // 각 노드의 부모 노드를 저장하는 객체입니다.
-  let visited = {}; // 각 노드의 방문 여부를 저장하는 객체입니다.
-  let nodes = Object.keys(graph); // graph의 노드를 가져옵니다.
-  let pq = new PriorityQueue(); // 우선 순위 큐를 생성합니다.
-  pq.push([start, 0]); // 시작 노드를 우선 순위 큐에 추가합니다.
+  // 리턴값
+  let mst = [],
+    totalWeight = 0;
+
+  // 우선순위 큐
+  let pq = new PriorityQueue();
+  pq.push([start, 0]);
+
+  // 초기화 필요 변수
+  let visited = {},
+    parent = {},
+    minEdgeWeight = {};
 
   // 초기화
-  for (let node of nodes) {
+  for (let node of Object.keys(graph)) {
     minEdgeWeight[node] = Infinity; // 1. 모든 노드의 최소 가중치를 무한대로,
     parent[node] = null; // 2. 부모 노드를 null로,
     visited[node] = false; // 3. 방문 여부를 false로 설정합니다.
@@ -121,6 +125,7 @@ function primMST(graph, start) {
     // 현재 노드와 연결된 모든 노드를 확인합니다.
     for (let [adjacent, weight] of Object.entries(graph[currentNode])) {
       // 연결된 노드가 아직 방문되지 않았고, 연결된 노드의 가중치가 현재 최소 가중치보다 작다면,
+      // 아직 MST에 추가되지 않은 노드를 향하는 간선 중에서 가장 가중치가 작은 간선을 찾음
       if (!visited[adjacent] && weight < minEdgeWeight[adjacent]) {
         parent[adjacent] = currentNode; // 부모 노드를 현재 노드로 설정하고,
         minEdgeWeight[adjacent] = weight; // 최소 가중치를 업데이트하고,
