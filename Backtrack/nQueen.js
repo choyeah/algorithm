@@ -50,6 +50,12 @@ function dfs(boardSize, currentRow, currentCandidate, finalResult) {
       dfs(boardSize, currentRow + 1, currentCandidate, finalResult);
 
       // 퀸을 이 열에서 제거하여 다른 열에 배치할 수 있게 합니다.
+      /**
+       * candidate.pop();의 역할은 두 가지 상황에서 중요합니다:
+       * 만약 유효한 targetCol이 발견되지 않으면, 즉 isAvailable()이 실패하면, 그 시점의 candidate 배열은 해결책이 될 수 없습니다.
+       * 따라서 candidate.pop();는 현재 행의 퀸 위치를 제거하고 이전 행(또는 스택의 이전 레벨)으로 돌아가 다른 가능한 위치를 탐색하게 됩니다. 이것이 백트래킹의 본질입니다.
+       * 만약 isAvailable()이 성공하고 currentRow가 boardSize에 도달하여 모든 퀸이 성공적으로 배치된다면, candidate는 잠재적인 해결책이 됩니다. 그러나 이는 특정 해결책일 뿐, 다른 가능한 해결책이 있을 수 있으므로, 이 시점에서 candidate.pop();를 사용하여 마지막 행의 퀸 위치를 제거하고 이전 행으로 돌아가 다른 가능한 위치를 탐색합니다. 이렇게 해서 모든 가능한 해결책을 찾을 수 있습니다.
+       */
       currentCandidate.pop();
     }
   }
